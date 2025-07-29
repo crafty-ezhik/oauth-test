@@ -34,11 +34,12 @@ export default {
   mounted() {
     const queryParams = new URLSearchParams(window.location.search);
     const code = queryParams.get('code')
+    const state = queryParams.get('state')
 
 
-    if (code) {
+    if (code && state) {
       fetch('http://localhost:8080/auth/google/callback', {
-        body: JSON.stringify({ code}),
+        body: JSON.stringify({ code, state}),
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       })

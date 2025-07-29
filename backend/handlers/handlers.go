@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/crafty-ezhik/oauth-test/utils"
 	"github.com/golang-jwt/jwt/v5"
 	"io"
@@ -50,6 +51,11 @@ func (h *AuthHandlerImpl) GoogleCode() http.HandlerFunc {
 		err = json.Unmarshal(body, &reqBody)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		fmt.Println("state:", reqBody.State)
+		if reqBody.State != os.Getenv("OAUTH_GOOGLE_STATE") {
+			http.Error(w, "Invalid state", http.StatusBadRequest)
 			return
 		}
 		slog.Info("Начинаем процедуру обмена кода на пару ключей")

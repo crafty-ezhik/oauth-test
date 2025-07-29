@@ -17,6 +17,7 @@ func GenerateGoogleAuthURL() (string, error) {
 	q.Set("redirect_uri", os.Getenv("OAUTH_GOOGLE_REDIRECT_URI"))
 	q.Set("response_type", "code")
 	q.Set("scope", "openid profile email https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/calendar")
+	q.Set("state", os.Getenv("OAUTH_GOOGLE_STATE"))
 
 	authUrl.RawQuery = q.Encode()
 	return authUrl.String(), nil
